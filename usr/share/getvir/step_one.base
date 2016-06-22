@@ -1,22 +1,25 @@
-CM_BASE_VERSION=GV-20150528-2320
+CM_BASE_VERSION=GV-20160622-1517
 
-PHP-EVAL01##Используется потенциально опасная функции eval()##1
-grep -Eni 'eval([[:space:]])*\(' $file_path
-
-PHP-BS6401 PHP-EVAL01##поиск функции декодирования алгоритмом base64##1
-grep -Eni 'base64_decode([[:space:]])*\(' $file_path
-
-PHP-EVAL04##поиск выполнения загрузки файлов на сервер через eval()##1
-grep -Eni 'eval([[:space:]])*\(([[:space:]])*\$_POST\[' $file_path
-
-PHP-GZ0001##поиск функций выполняющих дикопрессию##1
-grep -Eni 'gzuncompress([[:space:]])*\(|gzinflate([[:space:]])*\(' $file_path
+PHP-EVAL05##поиск исполнения кодированного алгоритмом base64 или str_rot13 кодa функцией eval()##1
+grep -Eni 'eval([[:space:]])*\(([[:space:]])*base64_decode|eval([[:space:]])*\(([[:space:]])*str_rot13' $file_path
 
 PHP-SHEL01##поиск функции исполнения Shell-скрипта##1
 grep -Eni 'shell_exec([[:space:]])*\(' $file_path
 
+PHP-EVAL04##поиск выполнения загрузки файлов на сервер через eval()##1
+grep -Eni 'eval([[:space:]])*\(([[:space:]])*\$_POST\[' $file_path
+
+PHP-EVAL01##Используется потенциально опасная функции eval()##1
+grep -Eni 'eval([[:space:]])*\(' $file_path
+
 PHP-ALL001 PHP-EVAL01##поиск длинных строк (>=200 символов)##1
 cat "$file_path" | tr '\n' ' ' | sed -e 's/\.\s*//g' | grep -Eo '[^\ ]{200,}'
+
+PHP-BS6401 PHP-EVAL01##поиск функции декодирования алгоритмом base64##1
+grep -Eni 'base64_decode([[:space:]])*\(' $file_path
+
+PHP-GZ0001##поиск функций выполняющих дикопрессию##1
+grep -Eni 'gzuncompress([[:space:]])*\(|gzinflate([[:space:]])*\(' $file_path
 
 PHP-ALL002##поиск потенциально опасных функций require(), require_once(), include(), include_once() - возможно подключение файла с вредоносным кодом##1
 grep -Eni 'require_once([[:space:]])*\(|require([[:space:]])*\(|include_once([[:space:]])*\(|include([[:space:]])*\(' $file_path
