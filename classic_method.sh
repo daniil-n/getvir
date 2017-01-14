@@ -131,11 +131,15 @@ function Search_Virus(){
 			# sv3=Файлы, содержащие данную уязвимость
 			Print_String "\n$(Design "RB" "$sv3:")"
 			Print_String "$current_id_result"
+			# Дополняем лог
+            cat $current_id_result_file >> $total_scan_result
+            echo -e "\n" >> $total_scan_result
 			
 		else
 		
 			# sv4=Файлы, содержащие данную уязвимость, не найдены
 			Print_String "\n$(Design "GNB" "$sv4.")"
+			echo -e "\n" >> $total_scan_result
 		fi
 		Print_String ""
 

@@ -52,8 +52,9 @@ source "$lang_path"	# Enable Localization file
 # список переменных, хранящих имена временных файлов:
 declare -r list_all_files="/tmp/getvir_${_START_SCAN}_list_all_files"
 declare -r list_files_with_php_code="/tmp/getvir_${_START_SCAN}_list_files_with_php_code"
-declare -r total_scan_result="$dir_log/${_START_SCAN}_total_scan_result"
+declare -r total_scan_result="$dir_log/${_START_SCAN}_total_scan_result.log"
 
+data_log=""
 
 # переменная, хранящая пути к временным файлам
 list_gc=""
@@ -126,6 +127,8 @@ function Print_Separator_Two(){
 
 # возвращаем форматированную строку
 function Design(){
+    echo -e $2 >> $total_scan_result
+    
 	case "$1" in
 	"DEF") # default
 	echo -e "\e[1m$2\033[0m"
@@ -198,7 +201,9 @@ function Design(){
 # 
 function Progress_Bar_One(){
 	# sv1="Проверяется файл"; sv2="из"
-	echo -ne "\r$sv1 $1 $sv2 $2 [$(Design "MB" "$3")]"
+	# echo -ne "\r$sv1 $1 $sv2 $2 [$(Design "MB" "$3")]"
+	# Изменено, чтобы не ломало логирование
+	echo -ne "\r$sv1 $1 $sv2 $2 [\e[1;35m$3\e[0m]"
 }
 
 #-------------------------------------------------------------------------
@@ -343,7 +348,7 @@ shift $(($OPTIND - 1))
 
 ### main #########################################################################################
 
-# touch $total_scan_result
+touch $total_scan_result
 Create_Files $list_all_files $list_files_with_php_code 
 
 # Сначала поздороваемся 
@@ -386,8 +391,8 @@ Print_Separator
 Print_String "$(date +%Y-%m-%d_%H-%M-%S): $main2."
 
 # main3=Файл с результатами сканирования
-# Print_String "\n$(Design "BOLD" "$main3:")"
-# echo $total_scan_result
+Print_String "\n$(Design "BOLD" "$main3:")"
+echo $total_scan_result
 
 #Print_String "\n$main4:"
 #Print_Separator
