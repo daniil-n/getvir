@@ -1,4 +1,4 @@
-CM_BASE_VERSION=GV-20160622-1517
+CM_BASE_VERSION=GV-20170114-1415
 
 PHP-EVAL05##поиск исполнения кодированного алгоритмом base64 или str_rot13 кодa функцией eval()##1
 grep -Eni 'eval[^(]*\(([[:space:]])*base64_decode|eval[^(]*\(([[:space:]])*str_rot13' $file_path
