@@ -1,16 +1,16 @@
 CM_BASE_VERSION=GV-20160622-1517
 
 PHP-EVAL05##поиск исполнения кодированного алгоритмом base64 или str_rot13 кодa функцией eval()##1
-grep -Eni 'eval([[:space:]])*\(([[:space:]])*base64_decode|eval([[:space:]])*\(([[:space:]])*str_rot13' $file_path
+grep -Eni 'eval[^(]*\(([[:space:]])*base64_decode|eval[^(]*\(([[:space:]])*str_rot13' $file_path
 
 PHP-SHEL01##поиск функции исполнения Shell-скрипта##1
 grep -Eni 'shell_exec([[:space:]])*\(' $file_path
 
 PHP-EVAL04##поиск выполнения загрузки файлов на сервер через eval()##1
-grep -Eni 'eval([[:space:]])*\(([[:space:]])*\$_POST\[' $file_path
+grep -Eni 'eval[^(]*\(([[:space:]])*\$_POST\[' $file_path
 
 PHP-EVAL01##Используется потенциально опасная функции eval()##1
-grep -Eni 'eval([[:space:]])*\(' $file_path
+grep -Eni 'eval[^(]*\(' $file_path
 
 PHP-ALL001 PHP-EVAL01##поиск длинных строк (>=200 символов)##1
 cat "$file_path" | tr '\n' ' ' | sed -e 's/\.\s*//g' | grep -Eo '[^\ ]{200,}'
